@@ -295,12 +295,13 @@ export default class DeploymentTool extends PureComponent {
 
     const {
       endpoint,
-      deployment
+      deployment,
+      attachments
     } = configuration;
 
     const api = new CamundaAPI(endpoint);
 
-    return api.deployDiagram(tab.file, deployment);
+    return api.deployDiagram(tab.file, deployment, attachments);
   }
 
   canDeployWithConfiguration(configuration) {
