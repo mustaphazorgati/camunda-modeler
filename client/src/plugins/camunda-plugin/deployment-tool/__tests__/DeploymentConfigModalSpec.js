@@ -17,6 +17,8 @@ import {
   shallow
 } from 'enzyme';
 
+import { merge } from 'min-dash';
+
 import AuthTypes from '../../shared/AuthTypes';
 import DeploymentConfigModal from '../DeploymentConfigModal';
 import DeploymentConfigValidator from '../validation/DeploymentConfigValidator';
@@ -778,7 +780,7 @@ function createModal(props={}, renderFn = shallow) {
   const wrapper = renderFn(
     <DeploymentConfigModal
       validator={ validator }
-      configuration={ configuration || getDefaultConfiguration() }
+      configuration={ getConfiguration(configuration) }
       onClose={ onClose || noop }
       title={ title }
       primaryAction={ primaryAction }
@@ -800,12 +802,17 @@ function createModal(props={}, renderFn = shallow) {
 
 function noop() {}
 
+function getConfiguration(overrides = {}) {
+  return merge({}, getDefaultConfiguration(), overrides);
+}
+
 function getDefaultConfiguration() {
   return {
     deployment: {
       name: 'diagram',
       tenantId: ''
     },
+    attachments: [],
     endpoint: {
       url: 'http://localhost:8080/engine-rest',
       authType: AuthTypes.basic

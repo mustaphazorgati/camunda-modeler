@@ -403,6 +403,7 @@ export default class DeploymentTool extends PureComponent {
 
     return {
       endpoint,
+      attachments: [],
       deployment: {
         name: withoutExtension(tab.name),
         ...deployment

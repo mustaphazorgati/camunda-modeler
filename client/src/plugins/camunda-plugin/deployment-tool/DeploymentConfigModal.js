@@ -22,7 +22,8 @@ import {
   Modal,
   CheckBox,
   Radio,
-  TextInput
+  TextInput,
+  FileInput
 } from '../../../shared/ui';
 
 import {
@@ -390,6 +391,24 @@ export default class DeploymentConfigModal extends React.PureComponent {
                       }
                     </div>
                   </fieldset>
+
+                  <fieldset>
+                    <legend>
+                      Include additional files
+                    </legend>
+
+                    <Field
+                      name="attachments"
+                      component={ FileInput }
+                      label="Select files"
+                      multiple
+                    />
+
+                    <FileList
+                      fieldName="attachments"
+                      form={ form }
+                    />
+                  </fieldset>
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -434,6 +453,29 @@ export default class DeploymentConfigModal extends React.PureComponent {
       </Modal>
     );
   }
+}
+
+function FileList(props) {
+  const {
+    fieldName,
+    form
+  } = props;
+
+  const files = form.values[fieldName];
+
+  function removeFile(fileToRemove) {
+    form.setFieldValue(fieldName, files.filter(file => file !== fileToRemove));
+  }
+
+  return (
+    <ul>
+      { files.map(file => (
+        <li key={ file.path }>
+          { file.name } <button onClick={ () => removeFile(file) }>X</button>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function hasKeys(obj) {
