@@ -28,20 +28,13 @@ describe('<FileInput>', function() {
 function createFileInput(options = {}) {
   const {
     field,
-    fieldMeta,
-    form: mockForm,
+    form,
     ...props
   } = options;
-
-  const form = mockForm || {
-    getFieldMeta: () => {
-      return fieldMeta || {};
-    }
-  };
 
   return shallow(<FileInput
     { ...props }
     field={ field || {} }
-    form={ form }
+    form={ form || {} }
   />);
 }

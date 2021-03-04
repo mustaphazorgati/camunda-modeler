@@ -401,12 +401,6 @@ export default class DeploymentConfigModal extends React.PureComponent {
                       name="attachments"
                       component={ FileInput }
                       label="Select files"
-                      multiple
-                    />
-
-                    <FileList
-                      fieldName="attachments"
-                      form={ form }
                     />
                   </fieldset>
                 </Modal.Body>
@@ -453,29 +447,6 @@ export default class DeploymentConfigModal extends React.PureComponent {
       </Modal>
     );
   }
-}
-
-function FileList(props) {
-  const {
-    fieldName,
-    form
-  } = props;
-
-  const files = form.values[fieldName];
-
-  function removeFile(fileToRemove) {
-    form.setFieldValue(fieldName, files.filter(file => file !== fileToRemove));
-  }
-
-  return (
-    <ul>
-      { files.map(file => (
-        <li key={ file.path }>
-          { file.name } <button onClick={ () => removeFile(file) }>X</button>
-        </li>
-      ))}
-    </ul>
-  );
 }
 
 function hasKeys(obj) {

@@ -10,30 +10,72 @@
 
 import React from 'react';
 
+import { Icon } from '../icon';
+import CloseIcon from '../../../../resources/icons/Close.svg';
+
 export default function FileInput(props) {
   const {
     label,
     field,
-    form,
-    multiple = false
+    form
   } = props;
+
+  const {
+    name,
+    value,
+    onBlur
+  } = field;
 
   const inputRef = React.useRef(null);
 
   function onChange() {
-    form.setFieldValue(field.name, Array.from(inputRef.current.files));
+    form.setFieldValue(name, Array.from(inputRef.current.files));
+  }
+
+  function removeFile(fileToRemove) {
+    form.setFieldValue(name, field.value.filter(file => file !== fileToRemove));
   }
 
   return (
-    <label>
-      {label}
+    <div className="form-group">
       <input
-        onBlur={ field.onBlur }
+        className="form-control"
+        name={ name }
+        id={ name }
+        onBlur={ onBlur }
         onChange={ onChange }
-        multiple={ multiple }
+        multiple
         type="file"
         ref={ inputRef }
       />
-    </label>
+
+      <label htmlFor={ name }>
+        <Icon name="open" />
+        {label}
+      </label>
+
+      <FileList
+        files={ value }
+        onRemove={ removeFile }
+      />
+    </div>
   );
+}
+
+function FileList(props) {
+  const {
+    files,
+    onRemove
+  } = props;
+
+  return (<ul className="file-list">
+    { files.map(file => (
+      <li className="file-list-item" key={ file.path }>
+        { file.name }
+        <button className="remove" type="button" onClick={ () => onRemove(file) } aria-label="Remove">
+          <CloseIcon aria-hidden="true" />
+        </button>
+      </li>
+    ))}
+  </ul>);
 }
