@@ -10,6 +10,8 @@
 
 import React from 'react';
 
+import { uniqueBy } from 'min-dash';
+
 import { Icon } from '../icon';
 import CloseIcon from '../../../../resources/icons/Close.svg';
 
@@ -29,7 +31,9 @@ export default function FileInput(props) {
   const inputRef = React.useRef(null);
 
   function onChange() {
-    form.setFieldValue(name, Array.from(inputRef.current.files));
+    const { files } = inputRef.current;
+
+    form.setFieldValue(name, uniqueBy('path', value, files));
   }
 
   function removeFile(fileToRemove) {

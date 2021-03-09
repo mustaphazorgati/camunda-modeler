@@ -400,7 +400,7 @@ export default class DeploymentConfigModal extends React.PureComponent {
                     <Field
                       name="attachments"
                       component={ FileInput }
-                      label="Select files"
+                      label="Add files"
                     />
                   </fieldset>
                 </Modal.Body>
